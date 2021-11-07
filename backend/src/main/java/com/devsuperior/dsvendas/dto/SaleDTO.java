@@ -1,14 +1,12 @@
-package com.devsuperior.dsvendas.entities;
+package com.devsuperior.dsvendas.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
+import com.devsuperior.dsvendas.entities.Sale;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,13 +14,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "tb_sales")
-public class Sale {
+public class SaleDTO {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +28,15 @@ public class Sale {
   private Integer deals;
   private Double amount;
   private LocalDate date;
+  private SellerDTO seller;
 
-  @ManyToOne
-  @JoinColumn(name = "seller_id")
-  private Seller seller;
+  public SaleDTO(Sale entity) {
+    id = entity.getId();
+    visited = entity.getVisited();
+    deals = entity.getDeals();
+    amount = entity.getAmount();
+    date = entity.getDate();
+    seller = new SellerDTO(entity.getSeller());
+  }
 
 }
